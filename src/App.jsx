@@ -87,8 +87,22 @@ const App = () => {
     },
   ]);
 
-  const handleAddFighter = ({zombieFighter}) => {
-    
+  const handleAddFighter = (zombieFighter) => {
+    // make sure user has enough money before adding to team. If not, console.log("Not enough money")
+    console.log("fighter: ", zombieFighter)
+    if (money < zombieFighter.price) {
+      return console.log("Not enough money");
+    }
+
+    // add fighter to team state
+    setTeam([...team, zombieFighter]);
+
+    // remove fighter from zombieFighters (using id?) state - create new array that filters out selected fighter
+    setZombieFighters(zombieFighters.filter(fighter => (fighter.id !== zombieFighter.id)));
+
+    // update money state to subtract fighter's price from total amount
+    setMoney(money - zombieFighter.price);
+
   };
 
   return (
@@ -102,7 +116,7 @@ const App = () => {
               <li>Price: {zombieFighter.price}</li>
               <li>Strength: {zombieFighter.strength}</li>
               <li>Agility: {zombieFighter.agility}</li>
-              <button type="submit" onClick={handleAddFighter}>Add to Team</button>
+              <button type="button" onClick={() => {handleAddFighter(zombieFighter)}}>Add to Team</button>
             </ul>
         ))}
     </>
