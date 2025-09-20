@@ -88,26 +88,39 @@ const App = () => {
   ]);
 
   const handleAddFighter = (zombieFighter) => {
-    // make sure user has enough money before adding to team. If not, console.log("Not enough money")
     console.log("fighter: ", zombieFighter)
+
     if (money < zombieFighter.price) {
       return console.log("Not enough money");
     }
 
-    // add fighter to team state
     setTeam([...team, zombieFighter]);
 
-    // remove fighter from zombieFighters (using id?) state - create new array that filters out selected fighter
     setZombieFighters(zombieFighters.filter(fighter => (fighter.id !== zombieFighter.id)));
 
-    // update money state to subtract fighter's price from total amount
     setMoney(money - zombieFighter.price);
-
   };
 
   return (
     <>
       <p>Money: {money}</p>
+
+      {team.length === 0 ? (
+        <p>Pick some team members!</p>
+      ) : (
+        team.map((fighter, index)=> (
+          <ul key={index}>
+              <li>{fighter.img}</li>
+              <li>{fighter.name}</li>
+              <li>Price: {fighter.price}</li>
+              <li>Strength: {fighter.strength}</li>
+              <li>Agility: {fighter.agility}</li>
+            </ul>
+        ))
+      ) }
+
+
+      <h2>Available Zombie Fighters</h2>
 
         {zombieFighters.map((zombieFighter, index) => (
             <ul key={index}>
