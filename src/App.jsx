@@ -87,6 +87,16 @@ const App = () => {
     },
   ]);
 
+  let totalStrength = 0;
+  team.forEach(fighter => {
+    totalStrength += fighter.strength;
+  })
+
+  let totalAgility = 0;
+  team.forEach(fighter => {
+    totalAgility += fighter.agility;
+  })
+
   const handleAddFighter = (zombieFighter) => {
     console.log("fighter: ", zombieFighter)
 
@@ -101,10 +111,24 @@ const App = () => {
     setMoney(money - zombieFighter.price);
   };
 
+  const handleRemoveFighter = (fighter) => {
+    console.log("fighter to be removed: ", fighter)
+
+     setTeam(team.filter(fighterToRemove => (fighterToRemove.id !== fighter.id)));
+
+    setZombieFighters([...zombieFighters, fighter]);
+
+    setMoney(money + fighter.price);
+
+  }
+
   return (
     <>
       <p>Money: {money}</p>
+      <p>Team's Strength: {totalStrength}</p>
+      <p>Team's Agility: {totalAgility}</p>
 
+    <h2>Your Team</h2>
       {team.length === 0 ? (
         <p>Pick some team members!</p>
       ) : (
@@ -115,6 +139,7 @@ const App = () => {
               <li>Price: {fighter.price}</li>
               <li>Strength: {fighter.strength}</li>
               <li>Agility: {fighter.agility}</li>
+              <button type="button" onClick={() => {handleRemoveFighter(fighter)}}>Remove From Team</button>
             </ul>
         ))
       ) }
